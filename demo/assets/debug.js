@@ -1,16 +1,22 @@
-(function (global, factory) {
+(function (global, Debug) {
     'use strict';
     if (typeof module === 'object' && typeof module.exports === 'object') {
-        module.exports = global.document ? factory(global, true) : function (w) {
+        module.exports = global.document ? Debug : function (w) {
             if (!w.document) {
                 throw new Error('Debug.js requires a window with a document');
             }
-            return factory(w);
+            return Debug;
         };
+    } else if (typeof define === 'function' && define.amd) {
+        define('debug', [], function () {
+            return Debug();
+        });
     } else {
-        factory(global);
+        var debug = Debug();
+        global.Debug = debug;
+        return debug;
     }
-}(typeof window !== 'undefined' ? window : this, function (window, noGlobal) {
+}(typeof window !== 'undefined' ? window : this, function () {
     'use strict';
     var globalLevel = 0;
     var userLevel = 0;
@@ -42,8 +48,8 @@
         var _Debug = window.Debug;
         Debug.extend({
             noConflict: function () {
-                if (window.Debug === Debug) {
-                    window.Debug = _Debug;
+                if (win.Debug === Debug) {
+                    win.Debug = _Debug;
                 }
                 return Debug;
             }
@@ -73,6 +79,8 @@
         if (!debugCache[level]) {
             debugCache[level] = function (w, level) {
                 var c = w.console || null, p = w.performance || null, v = function () {
+                        console.log(arguments);
+                        return 1;
                     }, d = {}, f = [
                         'count',
                         'error',
@@ -87,7 +95,7 @@
                     (function (x, i) {
                         d[x] = c && c[x] ? function () {
                             level >= i && level <= 5 && (isFogy() ? Function.prototype.call.call(c[x], c, Array.prototype.slice.call(arguments)) : c[x].apply(c, arguments));
-                        } : v;
+                        } : isFogy() ? Function.prototype.call.call(v, c, Array.prototype.slice.call(arguments)) : v.apply(c, arguments);
                     }(f[i], i));
                 }
                 d['timeStamp'] = function () {
@@ -98,14 +106,6 @@
             }(window, level);
         }
         return debugCache[level];
-    }
-    if (typeof define === 'function' && define.amd) {
-        define('debug', [], function () {
-            return Debug;
-        });
-    }
-    if (typeof noGlobal === 'undefined') {
-        window.Debug = Debug;
     }
     return Debug;
 }));

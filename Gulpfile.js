@@ -40,3 +40,9 @@ gulp.task("demo:sync", function () {
             console.log(e);
         });
 });
+
+// 同步输出文件到Demo目录
+gulp.task("test:sync", function () {
+    gulp.src('./dist/debug.min.js')
+        .pipe(gulp.dest("test/assets"));
+});
