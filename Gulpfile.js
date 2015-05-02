@@ -6,11 +6,12 @@ var path = require('path');
 var rename = require("gulp-rename");
 var dirSync = require('gulp-directory-sync');
 var uglify = require('gulp-uglify');
+var mochaPhantomJS = require('gulp-mocha-phantomjs');
 
 gulp.task('default', ['build']);
 
 gulp.task("build", ["script:build"], function () {});
-gulp.task("script:build", ["script:copy-lib","scripts:minify"], function () {});
+gulp.task("script:build", ["script:copy-lib", "scripts:minify"], function () {});
 
 // 编译脚本
 gulp.task("scripts:compile", function () {
@@ -19,6 +20,8 @@ gulp.task("scripts:compile", function () {
         .pipe(concat("debug.js"))
         .pipe(gulp.dest("dist"));
 });
+
+// 压缩脚本
 gulp.task("scripts:minify", ["scripts:compile"], function () {
     return gulp.src("dist/debug.js")
         .pipe(concat("debug.min.js"))
@@ -35,7 +38,7 @@ gulp.task("script:copy-lib", function () {
 // 同步输出文件到Demo目录
 gulp.task("demo:sync", function () {
     gulp.src('')
-        .pipe(dirSync("dist", 'demo/assets', {printSummary: true}))
+        .pipe(dirSync("dist", "demo/assets", {printSummary: true}))
         .on('error', function (e) {
             console.log(e);
         });
@@ -45,4 +48,11 @@ gulp.task("demo:sync", function () {
 gulp.task("test:sync", function () {
     gulp.src('./dist/debug.min.js')
         .pipe(gulp.dest("test/assets"));
+});
+
+// 模拟浏览器测试
+gulp.task("test:mocha", ["test:sync"], function () {
+    return gulp
+        .src("./test/phantomjs.html")
+        .pipe(mochaPhantomJS());
 });

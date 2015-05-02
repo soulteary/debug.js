@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Mocha</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/mocha.css"/>
+</head>
+<body>
+<script src="assets/should.min.js"></script>
+<script src="assets/mocha.js"></script>
+<script>mocha.setup('bdd')</script>
+<script src="assets/debug.min.js"></script>
+<script src="suits/phantomjs.js"></script>
+<script>
+    mocha.checkLeaks();
+    console.log(window.mochaPhantomJS,11)
+    if (window.mochaPhantomJS) {
+        mochaPhantomJS.run();
+    } else {
+        mocha.run();
+    }
+</script>
+</body>
+</html>

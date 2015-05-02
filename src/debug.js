@@ -17,12 +17,12 @@
     'use strict';
     if (typeof module === "object" && typeof module.exports === "object") {
         // exports for cmd
-        module.exports = global.document ? Debug : function (w) {
-            if (!w.document) {
+        module.exports = global.document ? Debug() : function (w) {
+            if (!w || !w.document) {
                 throw new Error("Debug.js requires a window with a document");
             }
-            return Debug;
-        };
+            return Debug();
+        }();
     } else if (typeof define === "function" && define.amd) {
         // exports for amd
         define("debug", [], function () {

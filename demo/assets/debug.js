@@ -2,6 +2,7 @@
     'use strict';
     if (typeof module === 'object' && typeof module.exports === 'object') {
         module.exports = global.document ? Debug : function (w) {
+            console.log('11111', w);
             if (!w.document) {
                 throw new Error('Debug.js requires a window with a document');
             }
@@ -79,9 +80,8 @@
         if (!debugCache[level]) {
             debugCache[level] = function (w, level) {
                 var c = w.console || null, p = w.performance || null, v = function () {
-                        console.log(arguments);
-                        return 1;
-                    }, d = {}, f = [
+                        return 404;
+                    }, k = null, d = {}, f = [
                         'count',
                         'error',
                         'warn',
@@ -94,8 +94,9 @@
                 for (var i = 0, j = f.length; i < j; i++) {
                     (function (x, i) {
                         d[x] = c && c[x] ? function () {
-                            level >= i && level <= 5 && (isFogy() ? Function.prototype.call.call(c[x], c, Array.prototype.slice.call(arguments)) : c[x].apply(c, arguments));
-                        } : isFogy() ? Function.prototype.call.call(v, c, Array.prototype.slice.call(arguments)) : v.apply(c, arguments);
+                            k = level >= i && level <= 5 ? c[x] : v;
+                            return isFogy() ? Function.prototype.call.call(k, c, Array.prototype.slice.call(arguments)) : k.apply(c, arguments);
+                        } : v;
                     }(f[i], i));
                 }
                 d['timeStamp'] = function () {
