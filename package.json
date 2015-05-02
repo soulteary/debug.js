@@ -1,0 +1,33 @@
+{
+  "name": "debug.js",
+  "version": "1.1.1",
+  "description": "a browser javascript debug lib.",
+  "main": "Gulpfile.js",
+  "scripts": {
+    "test": "gulp && gulp test:mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/soulteary/debug.js.git"
+  },
+  "keywords": [
+    "debug"
+  ],
+  "author": "soulteary",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/soulteary/debug.js/issues"
+  },
+  "homepage": "https://github.com/soulteary/debug.js",
+  "devDependencies": {
+    "amd-optimize": "^0.5.0",
+    "gulp": "^3.9.0",
+    "gulp-concat": "^2.5.2",
+    "gulp-directory-sync": "^1.0.0",
+    "gulp-lint-everything": "^0.3.2",
+    "gulp-mocha": "^2.0.1",
+    "gulp-mocha-phantomjs": "^0.6.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^1.2.0"
+  }
+}

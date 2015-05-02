@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Global</title>
+    <script src="assets/debug.js"></script>
+</head>
+<body>
+<p>There're something in your devtool console panel.</p>
+<script>
+    if (window.Debug) {
+        Debug.error('This message called without `Debug` init, as default setting is `0`, it will not be shown.');
+
+        Debug.log('This message could\'n be seen.');
+        // set debug level
+        Debug(5);
+        Debug.log('This message could be seen.');
+        Debug.debug('This message could be seen.');
+        Debug.info('This message could be seen.');
+        Debug.warn('This message could be seen.');
+        Debug.error('This message could be seen.');
+
+        // change debug level
+        Debug(1);
+        Debug.log('This message could\'n be seen.');
+        Debug.debug('This message could\'n be seen.');
+        Debug.info('This message could\'n be seen.');
+        Debug.warn('This message could\'n be seen.');
+        Debug.error('This message could be seen.');
+    } else {
+        throw "Debug.js is not include current page.";
+    }
+</script>
+</body>
+</html>
