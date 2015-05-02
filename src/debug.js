@@ -29,7 +29,7 @@
         factory(global);
     }
 
-}(typeof window !== "undefined" ? window : this, function (window, noGlobal, strundefined) {
+}(typeof window !== "undefined" ? window : this, function (window, noGlobal) {
     'use strict';
 
     // 默认调试等级为禁用一切输出
@@ -80,6 +80,18 @@
      * @type {Function}
      */
     var init = Debug.fn.init = function (params) {
+
+        var _Debug = window.Debug;
+
+        Debug.extend({
+            noConflict: function () {
+                if (window.Debug === Debug) {
+                    window.Debug = _Debug;
+                }
+                return Debug;
+            }
+        });
+
         switch (arguments.length) {
             case 1:
                 Debug.extend(instance(params));
@@ -89,6 +101,7 @@
                 Debug.extend(instance(0));
                 return this;
         }
+
         return this;
     };
     init.prototype = Debug.fn;
@@ -145,18 +158,7 @@
         });
     }
 
-    var _Debug = window.Debug;
-
-    Debug.extend({
-        noConflict: function () {
-            if (window.Debug === Debug) {
-                window.Debug = _Debug;
-            }
-            return Debug;
-        }
-    });
-
-    if (typeof noGlobal === strundefined) {
+    if (typeof noGlobal === 'undefined') {
         window.Debug = Debug;
     }
 

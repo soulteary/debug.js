@@ -35,7 +35,6 @@ gulp.task("script:copy-lib", function () {
 // 同步输出文件到Demo目录
 gulp.task("demo:sync", function () {
     gulp.src('')
-        .pipe(dirSync("src/html", 'demo', {printSummary: true}))
         .pipe(dirSync("dist", 'demo/assets', {printSummary: true}))
         .on('error', function (e) {
             console.log(e);
