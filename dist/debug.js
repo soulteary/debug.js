@@ -7,7 +7,7 @@
             }
             return Debug();
         }();
-    } else if (typeof define === 'function' && define.amd) {
+    } else if (typeof define === 'function' && (define.amd || window.seajs)) {
         define('debug', [], function () {
             return Debug();
         });

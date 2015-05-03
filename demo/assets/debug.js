@@ -1,14 +1,13 @@
 (function (global, Debug) {
     'use strict';
     if (typeof module === 'object' && typeof module.exports === 'object') {
-        module.exports = global.document ? Debug : function (w) {
-            console.log('11111', w);
-            if (!w.document) {
+        module.exports = global.document ? Debug() : function (w) {
+            if (!w || !w.document) {
                 throw new Error('Debug.js requires a window with a document');
             }
-            return Debug;
-        };
-    } else if (typeof define === 'function' && define.amd) {
+            return Debug();
+        }();
+    } else if (typeof define === 'function' && (define.amd || window.seajs)) {
         define('debug', [], function () {
             return Debug();
         });

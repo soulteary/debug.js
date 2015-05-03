@@ -1,18 +1,36 @@
 /**
- * simple debug helper
- * @author soulteary@qq.com
+ * debug.js
+ *
+ * @author  soulteary@qq.com
  * @example
  *
+ *  - Global:
+ *      var debug = window.Debug;
+ *  - AMD/CMD Module:
+ *      var debug = require('debug');
  *
- * @level:
+ *          debug(5);   // set debug level
+ *          debug.method(argv);
+ *
+ * @debug_level:
+ *
  *      disable (0) < log (5) < debug (4) < info (3) < warn (2) < error (1)
  *
- *      var debug = require('debug');
- *          debug([setLevel, 1,2,3,4,5]);
- *          debug.method // 'count', 'error', 'warn', 'info', 'debug', 'log', 'time', 'timeEnd', 'timeStamp', 'performance'
+ * @method_list:
+ *
+ *      - count
+ *      - error
+ *      - warn
+ *      - info
+ *      - debug
+ *      - log
+ *      - time
+ *      - timeEnd
+ *      - timeStamp
+ *      - performance
+ *
  */
-
-// inspire by jquery module factory
+// factory mode inspire by jquery.
 (function (global, Debug) {
     'use strict';
     if (typeof module === "object" && typeof module.exports === "object") {
@@ -23,8 +41,8 @@
             }
             return Debug();
         }();
-    } else if (typeof define === "function" && define.amd) {
-        // exports for amd
+    } else if (typeof define === "function" && (define.amd || window.seajs)) {
+        // exports for amd && cmd(seajs)
         define("debug", [], function () {
             return Debug();
         });

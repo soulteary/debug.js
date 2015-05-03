@@ -2,14 +2,13 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>Requirejs</title>
-    <script src="assets/require.min.js"></script>
+    <title>Global</title>
     <script src="assets/debug.js"></script>
 </head>
 <body>
 <p>There're something in your devtool console panel.</p>
 <script>
-    require(['debug'], function (Debug) {
+    if (window.Debug) {
         // set debug level
         Debug(5);
         Debug.log('This message could be seen.');
@@ -25,7 +24,9 @@
         Debug.info('This message could\'n be seen.');
         Debug.warn('This message could\'n be seen.');
         Debug.error('This message could be seen.');
-    });
+    } else {
+        throw "Debug.js is not include current page.";
+    }
 </script>
 </body>
 </html>
