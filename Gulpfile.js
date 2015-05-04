@@ -11,19 +11,14 @@ var mochaPhantomJS = require('gulp-mocha-phantomjs');
 gulp.task('default', ['build']);
 
 gulp.task("build", ["script:build"], function () {});
-gulp.task("script:build", ["script:copy-lib", "scripts:minify"], function () {});
+gulp.task("script:build", ["script:copy-lib", "scripts:compile"], function () {});
 
-// 编译脚本
+// 编译&&压缩脚本
 gulp.task("scripts:compile", function () {
     return gulp.src("src/debug.js")
         .pipe(amdOptimize("debug", {wrapShim: true}))
         .pipe(concat("debug.js"))
-        .pipe(gulp.dest("dist"));
-});
-
-// 压缩脚本
-gulp.task("scripts:minify", ["scripts:compile"], function () {
-    return gulp.src("dist/debug.js")
+        .pipe(gulp.dest("dist"))
         .pipe(concat("debug.min.js"))
         .pipe(uglify())
         .pipe(gulp.dest("dist"));
