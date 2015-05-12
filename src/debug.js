@@ -30,29 +30,29 @@
  *      - performance
  *
  */
-// factory mode inspire by jquery.
+/* global define, module, window, navigator */
 (function (global, Debug) {
     'use strict';
-    if (typeof module === "object" && typeof module.exports === "object") {
+    if (typeof module === 'object' && typeof module.exports === 'object') {
         // exports for cmd
-        module.exports = global.document ? Debug() : function (w) {
+        module.exports = global.document ? new Debug() : (function (w) {
             if (!w || !w.document) {
-                throw new Error("Debug.js requires a window with a document");
+                throw new Error('Debug.js requires a window with a document');
             }
-            return Debug();
-        }();
-    } else if (typeof define === "function" && (define.amd || window.seajs)) {
+            return new Debug();
+        }());
+    } else if (typeof define === 'function' && (define.amd || window.seajs)) {
         // exports for amd && cmd(seajs)
-        define("debug", [], function () {
-            return Debug();
+        define('debug', [], function () {
+            return new Debug();
         });
     } else {
-        var debug = Debug();
+        var debug = new Debug();
         global.Debug = debug;
         return debug;
     }
 
-}(typeof window !== "undefined" ? window : this, function () {
+}(typeof window !== 'undefined' ? window : this, function () {
     'use strict';
 
     // 默认调试等级为禁用一切输出
@@ -62,7 +62,7 @@
     // 保存当前示例过后的对象容器
     var debugCache = {};
     // 内部版本
-    var version = "0.0.1",
+    var version = '0.0.1',
 
         Debug   = function (params) {
             return new Debug.fn.init(params);
@@ -81,17 +81,19 @@
             target = this;
 
         // Only deal with non-null/undefined values
-        if ((options = arguments[0]) != null) {
+        if ((options = arguments[0]) !== null) {
             // Extend the base object
             for (name in options) {
-                src = target[name];
-                copy = options[name];
-                // Prevent never-ending loop
-                if (target === copy) {
-                    continue;
-                }
-                if (copy !== undefined) {
-                    target[name] = copy;
+                if (options.hasOwnProperty(name)) {
+                    src = target[name];
+                    copy = options[name];
+                    // Prevent never-ending loop
+                    if (target === copy) {
+                        continue;
+                    }
+                    if (copy !== undefined) {
+                        target[name] = copy;
+                    }
                 }
             }
         }
@@ -108,8 +110,8 @@
 
         Debug.extend({
             noConflict: function () {
-                if (win.Debug === Debug) {
-                    win.Debug = _Debug;
+                if (window.Debug === Debug) {
+                    window.Debug = _Debug;
                 }
                 return Debug;
             }
@@ -149,7 +151,7 @@
      * @returns {boolean}
      */
     function isFogy () {
-        return (navigator.appName.indexOf("Internet Explorer") > -1) && (navigator.appVersion.indexOf("MSIE 9") == -1 && navigator.appVersion.indexOf("MSIE 1") == -1);
+        return (navigator.appName.indexOf('Internet Explorer') > -1) && (navigator.appVersion.indexOf('MSIE 9') == -1 && navigator.appVersion.indexOf('MSIE 1') == -1);
     }
 
 
@@ -163,6 +165,7 @@
             debugCache[level] = (function (w, level) {
                 var c = w.console || null, p = w.performance || null, v = function () {return 404;}, k = null, d = {}, f = ['count', 'error', 'warn', 'info', 'debug', 'log', 'time', 'timeEnd'];
                 for (var i = 0, j = f.length; i < j; i++) {
+                    /*jslint loopfunc:true */
                     (function (x, i) {
                         d[x] = c && c[x] ? function () {
                             k = (level >= i && level <= 5) ? c[x] : v;
@@ -170,8 +173,8 @@
                         } : v;
                     })(f[i], i);
                 }
-                d['timeStamp'] = function () {return +new Date;};
-                d['performance'] = p && p.timing ? p.timing : null;
+                d.timeStamp = function () {return +new Date();};
+                d.performance = p && p.timing ? p.timing : null;
                 return d;
             }(window, level));
         }

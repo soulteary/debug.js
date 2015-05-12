@@ -7,6 +7,7 @@ var rename = require("gulp-rename");
 var dirSync = require('gulp-directory-sync');
 var uglify = require('gulp-uglify');
 var mochaPhantomJS = require('gulp-mocha-phantomjs');
+var lintAll = require('gulp-lint-everything')({jshint: ".jshintrc"});
 
 gulp.task('default', ['build']);
 
@@ -43,6 +44,11 @@ gulp.task("demo:sync", function () {
 gulp.task("test:sync", function () {
     gulp.src('./dist/debug.min.js')
         .pipe(gulp.dest("test/assets"));
+});
+
+// jsLint
+gulp.task("scripts:lint", function () {
+    return lintAll("./src/**/*.js");
 });
 
 // 模拟浏览器测试

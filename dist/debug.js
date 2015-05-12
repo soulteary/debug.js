@@ -1,18 +1,18 @@
 (function (global, Debug) {
     'use strict';
     if (typeof module === 'object' && typeof module.exports === 'object') {
-        module.exports = global.document ? Debug() : function (w) {
+        module.exports = global.document ? new Debug() : function (w) {
             if (!w || !w.document) {
                 throw new Error('Debug.js requires a window with a document');
             }
-            return Debug();
+            return new Debug();
         }();
     } else if (typeof define === 'function' && (define.amd || window.seajs)) {
         define('debug', [], function () {
-            return Debug();
+            return new Debug();
         });
     } else {
-        var debug = Debug();
+        var debug = new Debug();
         global.Debug = debug;
         return debug;
     }
@@ -30,15 +30,17 @@
     };
     Debug.extend = Debug.fn.extend = function () {
         var options, name, src, copy, target = this;
-        if ((options = arguments[0]) != null) {
+        if ((options = arguments[0]) !== null) {
             for (name in options) {
-                src = target[name];
-                copy = options[name];
-                if (target === copy) {
-                    continue;
-                }
-                if (copy !== undefined) {
-                    target[name] = copy;
+                if (options.hasOwnProperty(name)) {
+                    src = target[name];
+                    copy = options[name];
+                    if (target === copy) {
+                        continue;
+                    }
+                    if (copy !== undefined) {
+                        target[name] = copy;
+                    }
                 }
             }
         }
@@ -48,8 +50,8 @@
         var _Debug = window.Debug;
         Debug.extend({
             noConflict: function () {
-                if (win.Debug === Debug) {
-                    win.Debug = _Debug;
+                if (window.Debug === Debug) {
+                    window.Debug = _Debug;
                 }
                 return Debug;
             }
@@ -98,10 +100,10 @@
                         } : v;
                     }(f[i], i));
                 }
-                d['timeStamp'] = function () {
+                d.timeStamp = function () {
                     return +new Date();
                 };
-                d['performance'] = p && p.timing ? p.timing : null;
+                d.performance = p && p.timing ? p.timing : null;
                 return d;
             }(window, level);
         }
