@@ -4,25 +4,25 @@ describe('#Debug', function () {
 
     it('Global `Debug`\'s type should be `Function`.', function () {
         (typeof debug).should.equal(typeof describe);
-    })
+    });
 
     it('Debug.fn should be exist.', function () {
         (debug.fn).should.be.ok;
-    })
+    });
 
     it('Debug.fn.init should be exist.', function () {
         (debug.fn.init).should.be.ok;
-    })
+    });
 
     it('Debug.extend should be exist.', function () {
         (debug.extend).should.be.ok;
-    })
+    });
 
     it('Debug.extend should be equl as Debug.fn.extend .', function () {
         (debug.fn.extend).should.equal(debug.extend);
-    })
+    });
 
-})
+});
 
 describe('#Debug()', function () {
 
@@ -31,7 +31,7 @@ describe('#Debug()', function () {
     it('Global instance\'s type should be `Function`.', function () {
         debug(5);
         (typeof debug).should.equal(typeof describe);
-    })
+    });
 
     it('Debug.`method` should be exist when debug level is `5`.', function () {
         debug(5);
@@ -45,7 +45,7 @@ describe('#Debug()', function () {
         (debug.warn() === undefined).should.be.true;
         (debug.error).should.be.ok;
         (debug.error() === undefined).should.be.true;
-    })
+    });
 
     it('Debug.log should be return `404`, others should be `undefined` when debug level is `4`.', function () {
         debug(4);
@@ -59,7 +59,7 @@ describe('#Debug()', function () {
         (debug.warn() === undefined).should.be.true;
         (debug.error).should.be.ok;
         (debug.error() === undefined).should.be.true;
-    })
+    });
 
     it('Debug.log && Debug.debug should be return `404`, others should be `undefined` when debug level is `3`.', function () {
         debug(3);
@@ -73,7 +73,7 @@ describe('#Debug()', function () {
         (debug.warn() === undefined).should.be.true;
         (debug.error).should.be.ok;
         (debug.error() === undefined).should.be.true;
-    })
+    });
 
     it('Debug.log && Debug.debug && Debug.info should be return `404`, others should be `undefined` when debug level is `2`.', function () {
         debug(2);
@@ -87,7 +87,7 @@ describe('#Debug()', function () {
         (debug.warn() === undefined).should.be.true;
         (debug.error).should.be.ok;
         (debug.error() === undefined).should.be.true;
-    })
+    });
 
     it('Only Debug.error isn\'t return `404`, others should be `404` when debug level is `1`.', function () {
         debug(1);
@@ -101,7 +101,7 @@ describe('#Debug()', function () {
         (debug.warn() === 404).should.be.true;
         (debug.error).should.be.ok;
         (debug.error() === undefined).should.be.true;
-    })
+    });
 
     it('Every method should return `404` when debug level is `0`.', function () {
         debug(0);
@@ -115,6 +115,6 @@ describe('#Debug()', function () {
         (debug.warn() === 404).should.be.true;
         (debug.error).should.be.ok;
         (debug.error() === 404).should.be.true;
-    })
+    });
 
-})
+});
