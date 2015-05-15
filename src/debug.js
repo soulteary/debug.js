@@ -10,6 +10,7 @@
  *      var debug = require('debug');
  *
  *          debug(5);   // set debug level
+ *          debug('log'); // set debug level by words
  *          debug.method(argv);
  *
  * @debug_level:
@@ -139,7 +140,14 @@
      */
     function instance (setLevel) {
         if (!(typeof setLevel === 'number' && setLevel >= 0 && setLevel <= 5)) {
-            setLevel = 0;
+            var alias = ['error', 'warn', 'info', 'debug', 'log'];
+            for (var i = 0, j = alias.length; i < j; i++) {
+                if (alias[i] === setLevel) {
+                    setLevel = i + 1;
+                    break;
+                }
+            }
+            setLevel = setLevel || 0;
         }
         userLevel = setLevel;
         return getDebug(userLevel || globalLevel);
