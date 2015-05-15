@@ -26,7 +26,9 @@
 var debug = Debug;
 
     debug(5);
-    
+    //你也可以这样使用
+    debug('log');
+
     debug.log('i want to say...');
 ```
 
@@ -36,7 +38,7 @@ var debug = Debug;
 ```
 var debug = require('debug');
 
-    debug([setLevel, 1,2,3,4,5]);
+    debug([setLevel, 1,2,3,4,5,words]);
 
     debug.method // 'count', 'error', 'warn', 'info', 'debug', 'log', 'time', 'timeEnd', 'timeStamp', 'performance'
 
