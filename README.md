@@ -14,8 +14,6 @@
 
 ```
     disable (0) < log (5) < debug (4) < info (3) < warn (2) < error (1)
-    // 当然也可以这样用
-    disable ('off') < log ('log') < debug ('debug') < info ('info') < warn ('warn') < error ('error')
 ```
 
 ## 使用方法
@@ -44,4 +42,12 @@ var debug = require('debug');
 
     debug.method // 'count', 'error', 'warn', 'info', 'debug', 'log', 'time', 'timeEnd', 'timeStamp', 'performance'
 
+```
+
+如果你想关闭调试，可以这样：
+
+```
+    debug(0);
+    // 或者使用一个不存在的调试等级，如`off`/`disable`
+    debug('off');
 ```
