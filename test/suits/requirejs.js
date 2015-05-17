@@ -150,3 +150,117 @@ describe('#Debug()', function () {
     });
 
 });
+
+describe('#Debug(), set level by word.', function () {
+
+    it('Global instance\'s type should be `Function`.', function () {
+        require(['debug'], function (Debug) {
+            var debug = Debug;
+            debug('log');
+            expect(typeof debug).to.be(typeof expect);
+        });
+    });
+
+    it('Debug.`method` should be exist when debug level is `\'log\'`.', function () {
+        require(['debug'], function (Debug) {
+            var debug = Debug;
+            debug('log');
+            expect(debug.log).to.be.ok();
+            expect(debug.log()).to.be(undefined);
+            expect(debug.debug).to.be.ok();
+            expect(debug.debug()).to.be(undefined);
+            expect(debug.info).to.be.ok();
+            expect(debug.info()).to.be(undefined);
+            expect(debug.warn).to.be.ok();
+            expect(debug.warn()).to.be(undefined);
+            expect(debug.error).to.be.ok();
+            expect(debug.error()).to.be(undefined);
+        });
+    });
+
+    it('Debug.log should be return `404`, others should be `undefined` when debug level is `\'debug\'`.', function () {
+        require(['debug'], function (Debug) {
+            var debug = Debug;
+            debug('debug');
+            expect(debug.log).to.be.ok();
+            expect(debug.log()).to.be(404);
+            expect(debug.info).to.be.ok();
+            expect(debug.debug()).to.be(undefined);
+            expect(debug.info).to.be.ok();
+            expect(debug.info()).to.be(undefined);
+            expect(debug.warn).to.be.ok();
+            expect(debug.warn()).to.be(undefined);
+            expect(debug.error).to.be.ok();
+            expect(debug.error()).to.be(undefined);
+        });
+    });
+
+    it('Debug.log && Debug.debug should be return `404`, others should be `undefined` when debug level is `\'info\'`.', function () {
+        require(['debug'], function (Debug) {
+            var debug = Debug;
+            debug('info');
+            expect(debug.log).to.be.ok();
+            expect(debug.log()).to.be(404);
+            expect(debug.debug).to.be.ok();
+            expect(debug.debug()).to.be(404);
+            expect(debug.info).to.be.ok();
+            expect(debug.info()).to.be(undefined);
+            expect(debug.warn).to.be.ok();
+            expect(debug.warn()).to.be(undefined);
+            expect(debug.error).to.be.ok();
+            expect(debug.error()).to.be(undefined);
+        });
+    });
+
+    it('Debug.log && Debug.debug && Debug.info should be return `404`, others should be `undefined` when debug level is `\'warn\'`.', function () {
+        require(['debug'], function (Debug) {
+            var debug = Debug;
+            debug('warn');
+            expect(debug.log).to.be.ok();
+            expect(debug.log()).to.be(404);
+            expect(debug.debug).to.be.ok();
+            expect(debug.debug()).to.be(404);
+            expect(debug.info).to.be.ok();
+            expect(debug.info()).to.be(404);
+            expect(debug.warn).to.be.ok();
+            expect(debug.warn()).to.be(undefined);
+            expect(debug.error).to.be.ok();
+            expect(debug.error()).to.be(undefined);
+        });
+    });
+
+    it('Only Debug.error isn\'t return `404`, others should be `404` when debug level is `\'error\'`.', function () {
+        require(['debug'], function (Debug) {
+            var debug = Debug;
+            debug('error');
+            expect(debug.log).to.be.ok();
+            expect(debug.log()).to.be(404);
+            expect(debug.debug).to.be.ok();
+            expect(debug.debug()).to.be(404);
+            expect(debug.info).to.be.ok();
+            expect(debug.info()).to.be(404);
+            expect(debug.warn).to.be.ok();
+            expect(debug.warn()).to.be(404);
+            expect(debug.error).to.be.ok();
+            expect(debug.error()).to.be(undefined);
+        });
+    });
+
+    it('Every method should return `404` when debug level is `\'off\'`.', function () {
+        require(['debug'], function (Debug) {
+            var debug = Debug;
+            debug('off');
+            expect(debug.log).to.be.ok();
+            expect(debug.log()).to.be(404);
+            expect(debug.debug).to.be.ok();
+            expect(debug.debug()).to.be(404);
+            expect(debug.info).to.be.ok();
+            expect(debug.info()).to.be(404);
+            expect(debug.warn).to.be.ok();
+            expect(debug.warn()).to.be(404);
+            expect(debug.error).to.be.ok();
+            expect(debug.error()).to.be(404);
+        });
+    });
+
+});

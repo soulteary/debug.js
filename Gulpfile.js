@@ -33,7 +33,7 @@ gulp.task("script:copy-lib", function () {
 
 // 同步输出文件到Demo目录
 gulp.task("demo:sync", function () {
-    gulp.src('')
+    return gulp.src('')
         .pipe(dirSync("dist", "demo/assets", {printSummary: true}))
         .on('error', function (e) {
             console.log(e);
@@ -42,7 +42,7 @@ gulp.task("demo:sync", function () {
 
 // 同步输出文件到Demo目录
 gulp.task("test:sync", function () {
-    gulp.src('./dist/debug.min.js')
+    return gulp.src('./dist/debug.min.js')
         .pipe(gulp.dest("test/assets"));
 });
 
@@ -53,7 +53,6 @@ gulp.task("scripts:lint", function () {
 
 // 模拟浏览器测试
 gulp.task("test:mocha", ["test:sync"], function () {
-    return gulp
-        .src("./test/phantomjs.html")
+    return gulp.src("./test/phantomjs.html")
         .pipe(mochaPhantomJS());
 });
