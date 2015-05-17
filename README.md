@@ -14,6 +14,8 @@
 
 ```
     disable (0) < log (5) < debug (4) < info (3) < warn (2) < error (1)
+    // 当然也可以这样用
+    disable ('off') < log ('log') < debug ('debug') < info ('info') < warn ('warn') < error ('error')
 ```
 
 ## 使用方法
