@@ -32,11 +32,11 @@
  *
  */
 /* global define, module, window, navigator */
-(function (global, Debug) {
+(function(global, Debug) {
     'use strict';
     if (typeof module === 'object' && typeof module.exports === 'object') {
         // exports for cmd
-        module.exports = global.document ? new Debug() : (function (w) {
+        module.exports = global.document ? new Debug() : (function(w) {
             if (!w || !w.document) {
                 throw new Error('Debug.js requires a window with a document');
             }
@@ -44,7 +44,7 @@
         }());
     } else if (typeof define === 'function' && (define.amd || window.seajs)) {
         // exports for amd && cmd(seajs)
-        define('debug', [], function () {
+        define('debug', [], function() {
             return new Debug();
         });
     } else {
@@ -53,7 +53,7 @@
         return debug;
     }
 
-}(typeof window !== 'undefined' ? window : this, function () {
+}(typeof window !== 'undefined' ? window : this, function() {
     'use strict';
 
     // 默认调试等级为禁用一切输出
@@ -63,23 +63,24 @@
     // 保存当前示例过后的对象容器
     var debugCache = {};
     // 内部版本
-    var version = '0.0.1',
+    var version = '0.0.1';
 
-        Debug   = function (params) {
-            return new Debug.fn.init(params);
-        };
-
-
-    Debug.fn = Debug.prototype = {
-        Debug      : version,
-        constructor: Debug
+    var Debug = function(params) {
+        return new Debug.fn.init(params);
     };
 
+    Debug.fn = Debug.prototype = {
+        Debug       : version,
+        constructor : Debug
+    };
 
     // extend, minify from jquery
-    Debug.extend = Debug.fn.extend = function () {
-        var options, name, src, copy,
-            target = this;
+    Debug.extend = Debug.fn.extend = function() {
+        var options;
+        var name;
+        var src;
+        var copy;
+        var target = this;
 
         // Only deal with non-null/undefined values
         if ((options = arguments[0]) !== null) {
@@ -105,12 +106,12 @@
      * 外观模式提供调用
      * @type {Function}
      */
-    var init = Debug.fn.init = function (params) {
+    var init = Debug.fn.init = function(params) {
 
         var _Debug = window.Debug;
 
         Debug.extend({
-            noConflict: function () {
+            noConflict : function() {
                 if (window.Debug === Debug) {
                     window.Debug = _Debug;
                 }
@@ -132,7 +133,6 @@
     };
     init.prototype = Debug.fn;
 
-
     /**
      * 过滤输入，生成实例方法
      * @param setLevel
@@ -153,15 +153,15 @@
         return getDebug(userLevel || globalLevel);
     }
 
-
     /**
      * 检查是否为过时的浏览器
      * @returns {boolean}
      */
     function isFogy () {
-        return (navigator.appName.indexOf('Internet Explorer') > -1) && (navigator.appVersion.indexOf('MSIE 9') == -1 && navigator.appVersion.indexOf('MSIE 1') == -1);
+        return (navigator.appName.indexOf('Internet Explorer') > -1) &&
+            (navigator.appVersion.indexOf('MSIE 9') == -1 &&
+            navigator.appVersion.indexOf('MSIE 1') == -1);
     }
-
 
     /**
      * 创建debug对象缓存，以便提供模块加载信息打印以及通用打印的支持。
@@ -170,18 +170,24 @@
      */
     function getDebug (level) {
         if (!debugCache[level]) {
-            debugCache[level] = (function (w, level) {
-                var c = w.console || null, p = w.performance || null, v = function () {return 404;}, k = null, d = {}, f = ['count', 'error', 'warn', 'info', 'debug', 'log', 'time', 'timeEnd'];
+            debugCache[level] = (function(w, level) {
+                var c = w.console || null;
+                var p = w.performance || null;
+                var v = function() {return 404;};
+                var k = null;
+                var d = {};
+                var f = ['count', 'error', 'warn', 'info', 'debug', 'log', 'time', 'timeEnd'];
                 for (var i = 0, j = f.length; i < j; i++) {
                     /*jslint loopfunc:true */
-                    (function (x, i) {
-                        d[x] = c && c[x] ? function () {
+                    (function(x, i) {
+                        d[x] = c && c[x] ? function() {
                             k = (level >= i && level <= 5) ? c[x] : v;
-                            return isFogy() ? Function.prototype.call.call(k, c, Array.prototype.slice.call(arguments)) : k.apply(c, arguments);
+                            return isFogy() ? Function.prototype.call.call
+                            (k, c, Array.prototype.slice.call(arguments)) : k.apply(c, arguments);
                         } : v;
                     })(f[i], i);
                 }
-                d.timeStamp = function () {return +new Date();};
+                d.timeStamp = function() {return +new Date();};
                 d.performance = p && p.timing ? p.timing : null;
                 return d;
             }(window, level));

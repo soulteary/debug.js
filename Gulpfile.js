@@ -1,58 +1,57 @@
-var gulp = require('gulp');
+'use strict';
 
-var amdOptimize = require("amd-optimize");
+var gulp = require('gulp');
+var amdOptimize = require('amd-optimize');
 var concat = require('gulp-concat');
-var path = require('path');
-var rename = require("gulp-rename");
 var dirSync = require('gulp-directory-sync');
 var uglify = require('gulp-uglify');
 var mochaPhantomJS = require('gulp-mocha-phantomjs');
-var lintAll = require('gulp-lint-everything')({jshint: ".jshintrc"});
+var lintAll = require('gulp-lint-everything')({jshint : '.jshintrc',jscs : '.jscsrc'});
 
 gulp.task('default', ['build']);
 
-gulp.task("build", ["script:build"], function () {});
-gulp.task("script:build", ["script:copy-lib", "scripts:compile"], function () {});
+gulp.task('build', ['script:build'], function() {});
+
+gulp.task('script:build', ['script:copy-lib', 'scripts:compile'], function() {});
 
 // 编译&&压缩脚本
-gulp.task("scripts:compile", function () {
-    return gulp.src("src/debug.js")
-        .pipe(amdOptimize("debug", {wrapShim: true}))
-        .pipe(concat("debug.js"))
-        .pipe(gulp.dest("dist"))
-        .pipe(concat("debug.min.js"))
+gulp.task('scripts:compile', function() {
+    return gulp.src('src/debug.js')
+        .pipe(amdOptimize('debug', {wrapShim : true}))
+        .pipe(concat('debug.js'))
+        .pipe(gulp.dest('dist'))
+        .pipe(concat('debug.min.js'))
         .pipe(uglify())
-        .pipe(gulp.dest("dist"));
+        .pipe(gulp.dest('dist'));
 });
 
 // 复制依赖的脚本文件
-gulp.task("script:copy-lib", function () {
-    return gulp.src("./src/js/lib/*.js")
-        .pipe(gulp.dest("dist/js/lib"));
+gulp.task('script:copy-lib', function() {
+    return gulp.src('./src/js/lib/*.js')
+        .pipe(gulp.dest('dist/js/lib'));
 });
 
 // 同步输出文件到Demo目录
-gulp.task("demo:sync", function () {
+gulp.task('demo:sync', function() {
     return gulp.src('')
-        .pipe(dirSync("dist", "demo/assets", {printSummary: true}))
-        .on('error', function (e) {
+        .pipe(dirSync('dist', 'demo/assets', {printSummary : true}))
+        .on('error', function(e) {
             console.log(e);
         });
 });
 
 // 同步输出文件到Demo目录
-gulp.task("test:sync", function () {
+gulp.task('test:sync', function() {
     return gulp.src('./dist/debug.min.js')
-        .pipe(gulp.dest("test/assets"));
+        .pipe(gulp.dest('test/assets'));
 });
 
 // jsLint
-gulp.task("scripts:lint", function () {
-    return lintAll("./src/**/*.js");
+gulp.task('scripts:lint', function() {
+    return lintAll('./src/**/*.js');
 });
 
 // 模拟浏览器测试
-gulp.task("test:mocha", ["test:sync"], function () {
-    return gulp.src("./test/phantomjs.html")
-        .pipe(mochaPhantomJS());
+gulp.task('test:mocha', ['test:sync'], function() {
+    return gulp.src('./test/phantomjs.html').pipe(mochaPhantomJS());
 });

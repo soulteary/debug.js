@@ -27,7 +27,7 @@ describe('#Debug', function () {
             var debug = Debug;
             expect(debug.extend).to.be.ok();
         });
-    })
+    });
 
     it('Debug.extend should be equl as Debug.fn.extend .', function () {
         seajs.use('debug', function (Debug) {

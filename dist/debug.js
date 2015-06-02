@@ -21,15 +21,20 @@
     var globalLevel = 0;
     var userLevel = 0;
     var debugCache = {};
-    var version = '0.0.1', Debug = function (params) {
-            return new Debug.fn.init(params);
-        };
+    var version = '0.0.1';
+    var Debug = function (params) {
+        return new Debug.fn.init(params);
+    };
     Debug.fn = Debug.prototype = {
         Debug: version,
         constructor: Debug
     };
     Debug.extend = Debug.fn.extend = function () {
-        var options, name, src, copy, target = this;
+        var options;
+        var name;
+        var src;
+        var copy;
+        var target = this;
         if ((options = arguments[0]) !== null) {
             for (name in options) {
                 if (options.hasOwnProperty(name)) {
@@ -93,18 +98,23 @@
     function getDebug(level) {
         if (!debugCache[level]) {
             debugCache[level] = function (w, level) {
-                var c = w.console || null, p = w.performance || null, v = function () {
-                        return 404;
-                    }, k = null, d = {}, f = [
-                        'count',
-                        'error',
-                        'warn',
-                        'info',
-                        'debug',
-                        'log',
-                        'time',
-                        'timeEnd'
-                    ];
+                var c = w.console || null;
+                var p = w.performance || null;
+                var v = function () {
+                    return 404;
+                };
+                var k = null;
+                var d = {};
+                var f = [
+                    'count',
+                    'error',
+                    'warn',
+                    'info',
+                    'debug',
+                    'log',
+                    'time',
+                    'timeEnd'
+                ];
                 for (var i = 0, j = f.length; i < j; i++) {
                     (function (x, i) {
                         d[x] = c && c[x] ? function () {

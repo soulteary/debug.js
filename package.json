@@ -21,7 +21,7 @@
   "homepage": "https://github.com/soulteary/debug.js",
   "devDependencies": {
     "amd-optimize": "^0.4.3",
-    "gulp": "^3.8.11",
+    "gulp": "^3.9.0",
     "gulp-concat": "^2.5.2",
     "gulp-directory-sync": "^1.0.0",
     "gulp-lint-everything": "^0.3.2",

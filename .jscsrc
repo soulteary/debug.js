@@ -1,11 +1,3 @@
-/**
- * FEX Style Guide (Javascript)
- *
- * TODO:
- *
- * 1. 找不到选项：每行只允许一个语句
- * 2. 找不到选项：块状代码需要用大括号括起来
- */
 {
     // 缩进「MUST」使用 4 个空格
     "validateIndentation": 4,
@@ -22,8 +14,6 @@
     "requireSpaceAfterObjectKeys": true,
 
     // 对象键值的 ":" 前「MUST NOT」使用空格
-    // `,` 和 `;` 前面不允许「MUST NOT」使用空格。
-    "requireLeftStickedOperators": [ ":", ",", ";" ],
 
     // 二元运算符前后「MUST」使用空格
     "requireSpaceBeforeBinaryOperators": [
