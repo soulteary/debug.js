@@ -1,6 +1,8 @@
 ## 项目说明
 
 [![Build Status](https://travis-ci.org/soulteary/debug.js.svg?branch=master)](https://travis-ci.org/soulteary/debug.js)
+[![Dependency Status](https://david-dm.org/soulteary/debug.js.svg)](https://david-dm.org/soulteary/debug.js)
+[![devDependency Status](https://david-dm.org/soulteary/debug.js/dev-status.svg)](https://david-dm.org/soulteary/debug.js#info=devDependencies)
 
 我们常常会在项目中使用```console.X```方法来进行输出，或者简单的将```console```对象下的接口进行封装改写，以防出错。但是避免出错只是需求的下限而已。
 
