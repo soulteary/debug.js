@@ -1,27 +1,28 @@
 (function (global, Debug) {
     'use strict';
+    var instance = new Debug();
+    instance(0);
     if (typeof module === 'object' && typeof module.exports === 'object') {
-        module.exports = global.document ? new Debug() : function (w) {
+        module.exports = global.document ? instance : function (w) {
             if (!w || !w.document) {
                 throw new Error('Debug.js requires a window with a document');
             }
-            return new Debug();
+            return instance;
         }();
     } else if (typeof define === 'function' && (define.amd || window.seajs)) {
         define('debug', [], function () {
-            return new Debug();
+            return instance;
         });
     } else {
-        var debug = new Debug();
-        global.Debug = debug;
-        return debug;
+        global.Debug = instance;
+        return instance;
     }
 }(typeof window !== 'undefined' ? window : this, function () {
     'use strict';
     var globalLevel = 0;
     var userLevel = 0;
     var debugCache = {};
-    var version = '0.0.1';
+    var version = '1.1.0';
     var Debug = function (params) {
         return new Debug.fn.init(params);
     };
@@ -63,16 +64,16 @@
         });
         switch (arguments.length) {
         case 1:
-            Debug.extend(instance(params));
+            Debug.extend(getInstance(params));
             break;
         default:
-            Debug.extend(instance(0));
+            Debug.extend(getInstance(0));
             return this;
         }
         return this;
     };
     init.prototype = Debug.fn;
-    function instance(setLevel) {
+    function getInstance(setLevel) {
         if (!(typeof setLevel === 'number' && setLevel >= 0 && setLevel <= 5)) {
             var alias = [
                 'error',
@@ -97,15 +98,15 @@
     }
     function getDebug(level) {
         if (!debugCache[level]) {
-            debugCache[level] = function (w, level) {
-                var c = w.console || null;
-                var p = w.performance || null;
-                var v = function () {
+            debugCache[level] = function (win, level) {
+                var console = win.console || null;
+                var performance = win.performance || null;
+                var standIns = function () {
                     return 404;
                 };
-                var k = null;
-                var d = {};
-                var f = [
+                var func = null;
+                var cache = {};
+                var funcList = [
                     'count',
                     'error',
                     'warn',
@@ -115,19 +116,19 @@
                     'time',
                     'timeEnd'
                 ];
-                for (var i = 0, j = f.length; i < j; i++) {
+                for (var i = 0, j = funcList.length; i < j; i++) {
                     (function (x, i) {
-                        d[x] = c && c[x] ? function () {
-                            k = level >= i && level <= 5 ? c[x] : v;
-                            return isFogy() ? Function.prototype.call.call(k, c, Array.prototype.slice.call(arguments)) : k.apply(c, arguments);
-                        } : v;
-                    }(f[i], i));
+                        cache[x] = console && console[x] ? function () {
+                            func = level >= i && level <= 5 ? console[x] : standIns;
+                            return isFogy() ? Function.prototype.call.call(func, console, Array.prototype.slice.call(arguments)) : func.apply(console, arguments);
+                        } : standIns;
+                    }(funcList[i], i));
                 }
-                d.timeStamp = function () {
+                cache.timeStamp = function () {
                     return +new Date();
                 };
-                d.performance = p && p.timing ? p.timing : null;
-                return d;
+                cache.performance = performance && performance.timing ? performance.timing : null;
+                return cache;
             }(window, level);
         }
         return debugCache[level];

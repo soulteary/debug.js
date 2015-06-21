@@ -6,9 +6,9 @@ var concat = require('gulp-concat');
 var dirSync = require('gulp-directory-sync');
 var uglify = require('gulp-uglify');
 var mochaPhantomJS = require('gulp-mocha-phantomjs');
-var lintAll = require('gulp-lint-everything')({jshint : '.jshintrc',jscs : '.jscsrc'});
+var lintAll = require('gulp-lint-everything')({jshint : '.jshintrc', jscs : '.jscsrc'});
 
-gulp.task('default', ['build']);
+gulp.task('default', ['demo:sync']);
 
 gulp.task('build', ['script:build'], function() {});
 
@@ -32,7 +32,7 @@ gulp.task('script:copy-lib', function() {
 });
 
 // 同步输出文件到Demo目录
-gulp.task('demo:sync', function() {
+gulp.task('demo:sync', ['build'], function() {
     return gulp.src('')
         .pipe(dirSync('dist', 'demo/assets', {printSummary : true}))
         .on('error', function(e) {
