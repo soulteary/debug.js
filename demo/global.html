@@ -9,6 +9,8 @@
 <p>There're something in your devtool console panel.</p>
 <script>
     if (window.Debug) {
+        Debug.error('This message called without `Debug` init, as default setting is `0`, it will not be shown.');
+
         Debug.log('This message could\'n be seen.');
         // set debug level
         Debug(5);

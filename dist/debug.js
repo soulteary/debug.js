@@ -8,7 +8,7 @@
                 throw new Error('Debug.js requires a window with a document');
             }
             return instance;
-        }();
+        };
     } else if (typeof define === 'function' && (define.amd || window.seajs)) {
         define('debug', [], function () {
             return instance;
@@ -27,7 +27,7 @@
         return new Debug.fn.init(params);
     };
     Debug.fn = Debug.prototype = {
-        Debug: version,
+        version: version,
         constructor: Debug
     };
     Debug.extend = Debug.fn.extend = function () {
@@ -93,9 +93,6 @@
         userLevel = setLevel;
         return getDebug(userLevel || globalLevel);
     }
-    function isFogy() {
-        return navigator.appName.indexOf('Internet Explorer') > -1 && (navigator.appVersion.indexOf('MSIE 9') == -1 && navigator.appVersion.indexOf('MSIE 1') == -1);
-    }
     function getDebug(level) {
         if (!debugCache[level]) {
             debugCache[level] = function (win, level) {
@@ -118,10 +115,18 @@
                 ];
                 for (var i = 0, j = funcList.length; i < j; i++) {
                     (function (x, i) {
-                        cache[x] = console && console[x] ? function () {
-                            func = level >= i && level <= 5 ? console[x] : standIns;
-                            return isFogy() ? Function.prototype.call.call(func, console, Array.prototype.slice.call(arguments)) : func.apply(console, arguments);
-                        } : standIns;
+                        if (console && console[x]) {
+                            cache[x] = function () {
+                                if (level >= i && level <= 5) {
+                                    func = console[x];
+                                } else {
+                                    func = standIns;
+                                }
+                                return Function.prototype.apply.call(func, console, arguments);
+                            };
+                        } else {
+                            cache[x] = standIns;
+                        }
                     }(funcList[i], i));
                 }
                 cache.timeStamp = function () {

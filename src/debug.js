@@ -31,7 +31,7 @@
  *      - performance
  *
  */
-/* global define, module, window, navigator */
+/* global define, module, window */
 (function(global, Debug) {
     'use strict';
 
@@ -42,12 +42,12 @@
 
     if (typeof module === 'object' && typeof module.exports === 'object') {
         // exports for cmd
-        module.exports = global.document ? instance: (function(w) {
+        module.exports = global.document ? instance: function(w) {
             if (!w || !w.document) {
                 throw new Error('Debug.js requires a window with a document');
             }
             return instance;
-        }());
+        };
     } else if (typeof define === 'function' && (define.amd || window.seajs)) {
         // exports for amd && cmd(seajs)
         define('debug', [], function() {
@@ -75,7 +75,7 @@
     };
 
     Debug.fn = Debug.prototype = {
-        Debug       : version,
+        version     : version,
         constructor : Debug
     };
 
@@ -159,16 +159,6 @@
     }
 
     /**
-     * 检查是否为过时的浏览器
-     * @returns {boolean}
-     */
-    function isFogy() {
-        return (navigator.appName.indexOf('Internet Explorer') > -1) &&
-            (navigator.appVersion.indexOf('MSIE 9') == -1 &&
-            navigator.appVersion.indexOf('MSIE 1') == -1);
-    }
-
-    /**
      * 创建debug对象缓存，以便提供模块加载信息打印以及通用打印的支持。
      * @param level
      * @returns {*}
@@ -185,11 +175,19 @@
                 for (var i = 0, j = funcList.length; i < j; i++) {
                     /*jslint loopfunc:true */
                     (function(x, i) {
-                        cache[x] = console && console[x] ? function() {
-                            func = (level >= i && level <= 5) ? console[x]: standIns;
-                            return isFogy() ? Function.prototype.call.call
-                            (func, console, Array.prototype.slice.call(arguments)): func.apply(console, arguments);
-                        }: standIns;
+                        if (console && console[x]) {
+                            cache[x] = function() {
+                                // set func by  debug level
+                                if (level >= i && level <= 5) {
+                                    func = console[x];
+                                } else {
+                                    func = standIns;
+                                }
+                                return Function.prototype.apply.call(func, console, arguments);
+                            };
+                        } else {
+                            cache[x] = standIns;
+                        }
                     })(funcList[i], i);
                 }
                 cache.timeStamp = function() {return +new Date();};
