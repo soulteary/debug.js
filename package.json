@@ -1,8 +1,8 @@
 {
   "name": "debug.js",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "a browser javascript debug lib.",
-  "main": "Gulpfile.js",
+  "main": "./dist/debug.min.js",
   "scripts": {
     "test": "gulp && gulp test:mocha"
   },
