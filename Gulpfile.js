@@ -5,7 +5,7 @@ var amdOptimize = require('amd-optimize');
 var concat = require('gulp-concat');
 var dirSync = require('gulp-directory-sync');
 var uglify = require('gulp-uglify');
-var mochaPhantomJS = require('gulp-mocha-phantomjs');
+//var mochaPhantomJS = require('gulp-mocha-phantomjs');
 var lintAll = require('gulp-lint-everything')({jshint : '.jshintrc', jscs : '.jscsrc'});
 
 gulp.task('default', ['demo:sync']);
@@ -48,10 +48,10 @@ gulp.task('test:sync', function() {
 
 // jsLint
 gulp.task('scripts:lint', function() {
-    return lintAll('./src/**/*.js');
+    return lintAll('./src/debug.js');
 });
 
 // 模拟浏览器测试
-gulp.task('test:mocha', ['test:sync'], function() {
-    return gulp.src('./test/phantomjs.html').pipe(mochaPhantomJS());
-});
+//gulp.task('test:mocha', ['test:sync'], function() {
+//    return gulp.src('./test/phantomjs.html').pipe(mochaPhantomJS());
+//});

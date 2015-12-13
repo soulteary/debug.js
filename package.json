@@ -4,7 +4,7 @@
   "description": "a browser javascript debug lib.",
   "main": "./dist/debug.min.js",
   "scripts": {
-    "test": "gulp && gulp test:mocha"
+    "test": "gulp && gulp test:sync"
   },
   "repository": {
     "type": "git",
@@ -21,13 +21,11 @@
   },
   "homepage": "https://github.com/soulteary/debug.js",
   "devDependencies": {
-    "amd-optimize": "^0.5.0",
+    "amd-optimize": "^0.6.1",
     "gulp": "^3.9.0",
     "gulp-concat": "^2.6.0",
     "gulp-directory-sync": "^1.2.1",
     "gulp-lint-everything": "^0.3.2",
-    "gulp-mocha": "^2.2.0",
-    "gulp-mocha-phantomjs": "^0.6.1",
     "gulp-rename": "^1.2.2",
     "gulp-uglify": "^1.5.1"
   }
