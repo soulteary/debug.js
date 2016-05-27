@@ -79,7 +79,7 @@
     // 保存当前示例过后的对象容器
     var debugCache = {};
     // 内部版本
-    var version = '1.1.2';
+    var version = '1.1.5';
     // Debug KEY
     var DEBUG_KEY = 'xDebug';
     // debug handle

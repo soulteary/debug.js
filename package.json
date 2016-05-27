@@ -1,6 +1,6 @@
 {
   "name": "debug.js",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "a browser javascript debug lib.",
   "main": "./dist/debug.min.js",
   "scripts": {
